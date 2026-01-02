@@ -1,0 +1,255 @@
+/* Reset dasar untuk konsistensi */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body dengan gradient biru langit (sky blue) */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background: linear-gradient(135deg, #87CEEB 0%, #4682B4 50%, #1E90FF 100%); /* Gradient biru langit: dari sky blue ke steel blue ke dodger blue */
+    color: #fff; /* Teks putih untuk kontras */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 16px; /* Ukuran font dasar */
+}
+
+/* Container utama */
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparan untuk efek glassmorphism */
+    backdrop-filter: blur(10px); /* Efek blur untuk kesan modern */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Judul utama */
+h1, h2 {
+    color: #E0F6FF; /* Biru langit terang untuk judul */
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Tombol umum (login, logout, submit, delete, dll.) - Konsisten dengan gradient biru langit */
+button {
+    background: linear-gradient(45deg, #87CEEB, #4682B4); /* Gradient biru langit */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+    padding: 12px 20px; /* Padding lebih besar untuk sentuhan HP */
+    font-size: 16px; /* Ukuran font untuk readability */
+}
+
+button:hover {
+    background: linear-gradient(45deg, #4682B4, #1E90FF); /* Hover lebih gelap */
+    transform: scale(1.05); /* Efek zoom kecil */
+}
+
+button:active {
+    transform: scale(0.95); /* Efek tekan */
+}
+
+/* Form login */
+#login-form {
+    background: linear-gradient(45deg, #87CEEB, #4682B4); /* Gradient biru langit */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#login-form input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 16px;
+}
+
+#login-error {
+    color: #FFD700; /* Tetap emas untuk error, tapi bisa diubah jika mau biru */
+    font-weight: bold;
+}
+
+/* Panel admin */
+.admin-panel {
+    background: linear-gradient(45deg, #87CEEB, #4682B4);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.admin-panel select, .admin-panel input, .admin-panel textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 16px;
+}
+
+.admin-panel textarea {
+    height: 120px; /* Lebih tinggi untuk HP */
+    resize: vertical;
+}
+
+/* Sub-select untuk Seni Budaya */
+.sub-select {
+    display: none;
+}
+
+/* Filter section */
+#filter-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#filter-section select {
+    width: 48%;
+    padding: 10px;
+    margin: 5px 1%;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 16px;
+}
+
+/* Daftar item */
+.list {
+    margin-top: 20px;
+}
+
+.item {
+    background: linear-gradient(45deg, #E0F6FF, #87CEEB); /* Gradient biru langit terang */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color: #333; /* Teks gelap untuk kontras */
+}
+
+.item strong {
+    color: #4682B4; /* Biru langit gelap untuk kategori */
+}
+
+/* Tombol delete - Konsisten dengan tombol lain */
+.delete-btn {
+    background: linear-gradient(45deg, #DC143C, #FF4500); /* Tetap merah untuk delete, tapi bisa diubah ke biru jika mau */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-size: 16px;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(45deg, #FF4500, #B22222);
+    transform: scale(1.05);
+}
+
+/* Responsivitas untuk HP dan layar kecil (mobile-first) */
+@media (max-width: 600px) {
+    body {
+        margin: 10px; /* Margin lebih kecil di HP */
+        font-size: 14px; /* Font lebih kecil untuk fit */
+    }
+    
+    .container {
+        padding: 15px; /* Padding lebih kecil */
+        border-radius: 10px; /* Radius lebih kecil */
+    }
+    
+    h1, h2 {
+        font-size: 1.5em; /* Ukuran judul disesuaikan */
+        margin-bottom: 15px;
+    }
+    
+    button {
+        padding: 14px 25px; /* Padding lebih besar untuk sentuhan */
+        font-size: 16px; /* Tetap 16px untuk readability */
+        width: 100%; /* Tombol full-width di HP */
+        margin: 5px 0;
+    }
+    
+    #login-form, .admin-panel {
+        padding: 15px;
+    }
+    
+    #login-form input, .admin-panel select, .admin-panel input, .admin-panel textarea {
+        padding: 14px; /* Lebih besar untuk input */
+        font-size: 16px;
+    }
+    
+    #filter-section select {
+        width: 100%; /* Full-width di HP */
+        margin: 5px 0;
+    }
+    
+    .item {
+        padding: 12px; /* Padding lebih kecil */
+        font-size: 14px;
+    }
+    
+    .delete-btn {
+        width: 100%; /* Full-width */
+        padding: 12px;
+    }
+}
+
+/* Responsivitas untuk tablet kecil */
+@media (max-width: 768px) {
+    .container {
+        max-width: 90%; /* Lebih lebar di tablet */
+    }
+    
+    #filter-section select {
+        width: 48%; /* Kembali ke 48% di tablet */
+    }
+    
+    button {
+        width: auto; /* Tidak full-width di tablet */
+    }
+}
+
+/* Responsivitas untuk layar sangat kecil (HP lama) */
+@media (max-width: 480px) {
+    body {
+        font-size: 12px; /* Font lebih kecil lagi */
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    h1, h2 {
+        font-size: 1.2em;
+    }
+    
+    .item {
+        padding: 10px;
+    }
+}
