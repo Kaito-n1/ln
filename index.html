@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List PR Sekolah</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>List PR Saat Sekolah</h1>
+
+    <!-- LOGIN -->
+    <div id="login-section" style="text-align:center;margin-bottom:20px;">
+        <button id="login-btn">Login Admin</button>
+    </div>
+
+    <div id="login-form" style="display:none;">
+        <h2>Login Admin</h2>
+        <input type="text" id="username" placeholder="Nama">
+        <input type="password" id="password" placeholder="Password">
+        <button id="login-submit">Login</button>
+        <p id="login-error"></p>
+    </div>
+
+    <div id="logout-section" style="display:none;text-align:center;margin-bottom:20px;">
+        <button id="logout-btn">Logout</button>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel" class="admin-panel" style="display:none;">
+        <h2>Panel Admin</h2>
+
+        <select id="category">
+            <option value="PR">PR</option>
+            <option value="TUGAS">TUGAS</option>
+            <option value="Event">Event</option>
+        </select>
+
+        <select id="subject">
+            <option value="">Pilih Mata Pelajaran</option>
+            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+            <option value="Matematika">Matematika</option>
+            <option value="IPA">IPA</option>
+            <option value="IPS">IPS</option>
+            <option value="Bahasa Inggris">Bahasa Inggris</option>
+            <option value="Seni Budaya">Seni Budaya</option>
+            <option value="PJOK">PJOK</option>
+        </select>
+
+        <select id="sub-subject" class="sub-select">
+            <option value="">Pilih Sub Seni</option>
+            <option value="Seni Tari">Seni Tari</option>
+            <option value="Seni Musik">Seni Musik</option>
+            <option value="Seni Rupa">Seni Rupa</option>
+        </select>
+
+        <input type="text" id="title" placeholder="Judul / Nama Event">
+        <textarea id="desc" placeholder="Deskripsi (WAJIB untuk semua)"></textarea>
+        <input type="date" id="date">
+
+        <button id="submit-btn">Submit</button>
+    </div>
+
+    <!-- LIST -->
+    <div class="list">
+        <h2>Daftar</h2>
+        <div id="item-list"></div>
+    </div>
+</div>
+
+<script defer>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const adminUser = "kari";
+    const adminPass = "karipass";
+
+    const usernameEl = document.getElementById("username");
+    const passwordEl = document.getElementById("password");
+
+    const categoryEl = document.getElementById("category");
+    const subjectEl = document.getElementById("subject");
+    const subEl = document.getElementById("sub-subject");
+    const titleEl = document.getElementById("title");
+    const descEl = document.getElementById("desc");
+    const dateEl = document.getElementById("date");
+
+    const loginSection = document.getElementById("login-section");
+    const loginForm = document.getElementById("login-form");
+    const logoutSection = document.getElementById("logout-section");
+    const adminPanel = document.getElementById("admin-panel");
+
+    let isAdmin = sessionStorage.getItem("isAdmin") === "true";
+
+    /* ===== LOGIN ===== */
+    document.getElementById("login-btn").onclick = () => {
+        loginForm.style.display = "block";
+    };
+
+    document.getElementById("login-submit").onclick = () => {
+        if (
+            usernameEl.value.trim() === adminUser &&
+            passwordEl.value.trim() === adminPass
+        ) {
+            sessionStorage.setItem("isAdmin", "true");
+            isAdmin = true;
+            showAdmin();
+        } else {
+            document.getElementById("login-error").textContent = "Login gagal!";
+        }
+    };
+
+    document.getElementById("logout-btn").onclick = () => {
+        sessionStorage.removeItem("isAdmin");
+        isAdmin = false;
+        showNormal();
+    };
+
+    function showAdmin() {
+        loginSection.style.display = "none";
+        loginForm.style.display = "none";
+        logoutSection.style.display = "block";
+        adminPanel.style.display = "block";
+        loadItems();
+    }
+
+    function showNormal() {
+        loginSection.style.display = "block";
+        logoutSection.style.display = "none";
+        adminPanel.style.display = "none";
+        loadItems();
+    }
+
+    /* ===== CATEGORY LOGIC ===== */
+    categoryEl.onchange = () => {
+        const c = categoryEl.value;
+
+        if (c === "Event") {
+            subjectEl.style.display = "none";
+            subEl.style.display = "none";
+            titleEl.placeholder = "Nama Event";
+        } else {
+            subjectEl.style.display = "block";
+            titleEl.placeholder = "Judul";
+        }
+    };
+
+    subjectEl.onchange = () => {
+        subEl.style.display = subjectEl.value === "Seni Budaya" ? "block" : "none";
+    };
+
+    /* ===== SUBMIT ===== */
+    document.getElementById("submit-btn").onclick = () => {
+        const category = categoryEl.value;
+
+        if (!titleEl.value.trim()) {
+            alert("Judul / nama event wajib diisi");
+            return;
+        }
+
+        if (!descEl.value.trim()) {
+            alert("Deskripsi WAJIB diisi");
+            return;
+        }
+
+        if (!dateEl.value) {
+            alert("Tanggal wajib diisi");
+            return;
+        }
+
+        if (category !== "Event" && !subjectEl.value) {
+            alert("Mata pelajaran wajib diisi");
+            return;
+        }
+
+        let subject = "";
+        if (category !== "Event") {
+            subject = subjectEl.value;
+            if (subject === "Seni Budaya" && subEl.value) {
+                subject += ` (${subEl.value})`;
+            }
+        }
+
+        const item = {
+            category,
+            subject,
+            title: titleEl.value.trim(),
+            desc: descEl.value.trim(),
+            date: dateEl.value
+        };
+
+        const items = JSON.parse(localStorage.getItem("schoolItems") || "[]");
+        items.push(item);
+        localStorage.setItem("schoolItems", JSON.stringify(items));
+
+        titleEl.value = "";
+        descEl.value = "";
+        dateEl.value = "";
+
+        loadItems();
+    };
+
+    /* ===== LOAD ===== */
+    function loadItems() {
+        const list = document.getElementById("item-list");
+        list.innerHTML = "";
+
+        const items = JSON.parse(localStorage.getItem("schoolItems") || "[]");
+
+        items.forEach((it, i) => {
+            list.innerHTML += `
+            <div class="item">
+                <strong>[${it.category}]</strong><br>
+                ${it.subject ? `Mapel: ${it.subject}<br>` : ""}
+                <strong>${it.title}</strong><br>
+                ${it.desc}<br>
+                Tanggal: ${it.date}
+                ${isAdmin ? `<button class="delete-btn" onclick="del(${i})">Delete</button>` : ""}
+            </div>`;
+        });
+    }
+
+    window.del = (i) => {
+        const items = JSON.parse(localStorage.getItem("schoolItems"));
+        items.splice(i, 1);
+        localStorage.setItem("schoolItems", JSON.stringify(items));
+        loadItems();
+    };
+
+    isAdmin ? showAdmin() : showNormal();
+});
+</script>
+
+</body>
+</html>
